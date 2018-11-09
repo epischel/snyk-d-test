@@ -1,0 +1,134 @@
+buildscript {
+  ext { springBootVersion = '2.0.3.RELEASE' }
+}
+
+ext.camelVersion = '2.22.0'
+ext.springBootVersion = '2.0.3.RELEASE'
+ext.springSecurityVersion = '5.0.7.RELEASE'
+ext.springTest = '5.0.7.RELEASE'
+ext.cxfVersion = '3.1.14'
+ext.tomcatVersion = '8.5.23'
+ext.tomcatJuliVersion = '8.5.2'
+ext.jaxbXjcVersion = '2.2.11'
+ext.jaxb2Version = '0.10.0'
+ext.commonsCsvVersion = '1.4'
+ext.slf4j = '1.7.25'
+ext.logback = '1.2.3'
+ext.jUnitVersion = '4.12'
+ext.jsonWebTokenVersion = '0.7.0'
+
+// meta info version
+ext.srvDscVersion = '1.0.3'
+
+// frontend versions
+ext.webjarsLocator = '0.32'
+ext.jqueryVersion = '3.1.1-1'
+ext.jqueryUiVersion = '1.12.1'
+ext.datatablesVersion = '1.10.13'
+ext.bootstrapVersion = '3.3.7-1'
+ext.datetimepickerVersion = '0.3.8'
+ext.angularVersion = '1.6.7'
+ext.angularJsVersion = '1.6.2'
+ext.angularUiBootstrapVersion = '2.2.0'
+ext.angularUtilsPaginationVersion = '0.11.1'
+ext.chartJsVersion = '2.5.0'
+ext.angularChartJsVersion = '1.1.1'
+ext.hibernateValidator = '5.4.1.Final'
+
+dependencies {
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
+  compile group: 'org.springframework.boot', name: 'spring-boot-actuator', version: springBootVersion
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version: springBootVersion
+  compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version: springBootVersion
+
+  compile group: 'org.springframework.security', name: 'spring-security-ldap', version: springSecurityVersion
+  compile group: 'io.jsonwebtoken', name: 'jjwt', version: jsonWebTokenVersion
+
+  compile group: 'org.hibernate', name: 'hibernate-validator', version: hibernateValidator
+
+  compile group: 'org.apache.camel', name: 'camel-spring-boot', version: camelVersion
+  compile group: 'org.apache.camel', name: 'camel-spring-boot-starter', version: camelVersion
+  compile group: 'org.apache.camel', name: 'camel-servlet', version: camelVersion
+  compile group: 'org.apache.camel', name: 'camel-spring-ws', version: camelVersion
+  compile group: 'org.apache.camel', name: 'camel-jaxb', version: camelVersion
+  compile group: 'org.apache.camel', name: 'camel-spring-javaconfig', version: camelVersion
+  compile group: 'org.apache.camel', name: 'camel-http', version: camelVersion
+  compile group: 'org.apache.camel', name: 'camel-http4', version: camelVersion
+  compile group: 'org.apache.camel', name: 'camel-jackson', version: camelVersion
+  compile group: 'org.apache.camel', name: 'camel-jsonpath', version: camelVersion
+
+  compile group: 'org.hsqldb', name: 'hsqldb', version: '2.4.0'
+
+  compile group: 'com.oracle', name: 'ojdbc7', version: '12.1.0.1'
+
+  compile group: 'org.apache.cxf', name: 'cxf-rt-frontend-jaxws', version: cxfVersion
+  compile group: 'org.apache.cxf', name: 'cxf-rt-frontend-jaxrs', version: cxfVersion
+  compile group: 'org.apache.cxf', name: 'cxf-rt-transports-http', version: cxfVersion
+
+  compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-core', version: tomcatVersion
+  compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-el', version: tomcatVersion
+  compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-logging-juli', version: tomcatJuliVersion
+  compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: tomcatVersion
+
+  compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
+  compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.7.0'
+  compile group: 'org.apache.commons', name: 'commons-csv', version: commonsCsvVersion
+  compile group: 'org.apache.wss4j', name: 'wss4j-bindings', version: '2.1.4'
+
+  xjc 	group: 'javax.xml.bind', name: 'jaxb-api', version: jaxbXjcVersion
+  xjc		group: 'com.sun.xml.bind', name: 'jaxb-xjc', version: jaxbXjcVersion
+  xjc 	group: 'com.sun.xml.bind', name: 'jaxb-core', version: jaxbXjcVersion
+  xjc 	group: 'com.sun.xml.bind', name: 'jaxb-impl', version: jaxbXjcVersion
+  xjc		group: 'org.jvnet.jaxb2_commons', name: 'jaxb2-basics', version: jaxb2Version
+  xjc		group: 'org.jvnet.jaxb2_commons', name: 'jaxb2-basics-ant', version: jaxb2Version
+
+  compile	group: 'org.jvnet.jaxb2_commons', name: 'jaxb2-basics-runtime', version: jaxb2Version
+
+  compile group: 'org.jsonschema2pojo', name: 'jsonschema2pojo-core', version: '0.5.1'
+  compile group: 'org.jsonschema2pojo', name: 'jsonschema2pojo-gradle-plugin', version: '0.5.1'
+  compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.1'
+  compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.9.1'
+  compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
+  compile group: 'com.google.code.gson', name: 'gson', version: '2.8.4'
+  compile group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '2.4.0'
+
+  compile group: 'ch.qos.logback', name: 'logback-core', version: logback
+  compile group: 'ch.qos.logback', name: 'logback-classic', version: logback
+  compile group: 'org.slf4j', name: 'jul-to-slf4j', version: slf4j
+
+  testCompile group: 'junit', name: 'junit', version: jUnitVersion
+  testCompile group: 'org.apache.camel', name: 'camel-test', version: camelVersion
+  testCompile group: 'org.apache.camel', name: 'camel-test-spring', version: camelVersion
+  testCompile group: 'org.springframework', name: 'spring-test', version: springTest
+  testCompile group: 'org.springframework.security', name: 'spring-security-test', version: springSecurityVersion
+  testCompile group: 'org.springframework.boot', name: 'spring-boot-test', version: springBootVersion
+  testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
+  testCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.0.2'
+
+  // frontend
+  compile	group: 'org.webjars', name: 'webjars-locator', version: webjarsLocator
+  compile group: 'org.webjars', name: 'webjars-locator-core', version: webjarsLocator
+  compile	group: 'org.webjars', name: 'jquery', version: jqueryVersion
+  compile	group: 'org.webjars', name: 'jquery-ui', version: jqueryUiVersion
+  compile	group: 'org.webjars', name: 'datatables', version: datatablesVersion
+  compile	group: 'org.webjars', name: 'bootstrap', version: bootstrapVersion
+  compile	group: 'org.webjars', name: 'angularjs', version: angularJsVersion
+  compile	group: 'org.webjars', name: 'angular-ui-bootstrap', version: angularUiBootstrapVersion
+  compile	group: 'org.webjars', name: 'angular-bootstrap-datetimepicker', version: datetimepickerVersion
+  compile	group: 'org.webjars', name: 'highlightjs', version: '9.2.0'
+  compile	group: 'org.webjars.bower', name: 'angular', version: angularVersion
+  compile	group: 'org.webjars.bower', name: 'angular-utils-pagination', version: angularUtilsPaginationVersion
+  compile	group: 'org.webjars.bower', name: 'chart.js', version: chartJsVersion
+  compile	group: 'org.webjars.bower', name: 'angular-chart.js', version: angularChartJsVersion
+  compile group: 'org.webjars.bower', name: 'fontawesome', version: '4.7.0'
+
+  // documentation
+  docgen 'org.asciidoctor:asciidoctorj:1.5.5'
+  docgen 'org.asciidoctor:asciidoctor-ant:1.5.4'
+  docgen 'org.asciidoctor:asciidoctorj-diagram:1.5.4.1'
+  docgen 'org.jruby:jruby-complete:1.7.26'
+  docgen 'net.sourceforge.plantuml:plantuml:8048'
+
+  providedRuntime("org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}")
+}
