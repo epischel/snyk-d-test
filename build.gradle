@@ -108,7 +108,7 @@ dependencies {
 
   // frontend
   compile	group: 'org.webjars', name: 'webjars-locator', version: webjarsLocator
-  compile group: 'org.webjars', name: 'webjars-locator-core', version: webjarsLocator
+  compile group: 'org.webjars', name: 'webjars-locator-core', version: '0.36'
   compile	group: 'org.webjars', name: 'jquery', version: jqueryVersion
   compile	group: 'org.webjars', name: 'jquery-ui', version: jqueryUiVersion
   compile	group: 'org.webjars', name: 'datatables', version: datatablesVersion
