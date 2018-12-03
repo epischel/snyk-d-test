@@ -2,7 +2,7 @@ buildscript {
   ext { springBootVersion = '2.0.3.RELEASE' }
 }
 
-ext.camelVersion = '2.22.0'
+ext.camelVersion = '2.23.0'
 ext.springBootVersion = '2.0.3.RELEASE'
 ext.springSecurityVersion = '5.0.7.RELEASE'
 ext.springTest = '5.0.7.RELEASE'
