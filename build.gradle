@@ -4,8 +4,8 @@ buildscript {
 
 ext.camelVersion = '2.23.0'
 ext.springBootVersion = '2.0.6.RELEASE'
-ext.springSecurityVersion = '5.0.7.RELEASE'
-ext.springTest = '5.0.7.RELEASE'
+ext.springSecurityVersion = '5.0.9.RELEASE'
+ext.springTest = '5.0.9.RELEASE'
 ext.cxfVersion = '3.1.14'
 ext.tomcatVersion = '8.5.23'
 ext.tomcatJuliVersion = '8.5.2'
