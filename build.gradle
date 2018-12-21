@@ -1,27 +1,29 @@
 buildscript {
-  ext { springBootVersion = '2.0.6.RELEASE' }
+  ext { springBootVersion = '2.1.0.RELEASE' }
 }
 
 ext.camelVersion = '2.23.0'
-ext.springBootVersion = '2.0.6.RELEASE'
-ext.springSecurityVersion = '5.0.9.RELEASE'
-ext.springTest = '5.0.9.RELEASE'
-ext.cxfVersion = '3.1.17'
-ext.tomcatVersion = '8.5.23'
+ext.springBootVersion = '2.1.0.RELEASE'
+ext.springSecurityVersion = '5.1.2.RELEASE'
+ext.springTest = '5.1.2.RELEASE'
+ext.cxfVersion = '3.2.5'
+ext.tomcatVersion = '9.0.2'
 ext.tomcatJuliVersion = '8.5.2'
 ext.jaxbXjcVersion = '2.2.11'
 ext.jaxb2Version = '0.10.0'
 ext.commonsCsvVersion = '1.4'
-ext.slf4j = '1.7.25'
+ext.slf4j = '1.7.7'
 ext.logback = '1.2.3'
 ext.jUnitVersion = '4.12'
-ext.jsonWebTokenVersion = '0.7.0'
+ext.jsonWebTokenVersion = '0.9.1'
+ext.jsonschema2pojoVersion = '1.0.0'
 
 // meta info version
 ext.srvDscVersion = '1.0.3'
 
 // frontend versions
-ext.webjarsLocator = '0.32'
+ext.webjarsLocator = '0.34'
+ext.webjarsLocatorCore = '0.36'
 ext.jqueryVersion = '3.1.1-1'
 ext.jqueryUiVersion = '1.12.1'
 ext.datatablesVersion = '1.10.13'
@@ -85,8 +87,8 @@ dependencies {
 
   compile	group: 'org.jvnet.jaxb2_commons', name: 'jaxb2-basics-runtime', version: jaxb2Version
 
-  compile group: 'org.jsonschema2pojo', name: 'jsonschema2pojo-core', version: '0.5.1'
-  compile group: 'org.jsonschema2pojo', name: 'jsonschema2pojo-gradle-plugin', version: '0.5.1'
+  compile group: 'org.jsonschema2pojo', name: 'jsonschema2pojo-core', version: jsonschema2pojoVersion
+  compile group: 'org.jsonschema2pojo', name: 'jsonschema2pojo-gradle-plugin', version: jsonschema2pojoVersion
   compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.7'
   compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.9.7'
   compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
@@ -108,7 +110,7 @@ dependencies {
 
   // frontend
   compile	group: 'org.webjars', name: 'webjars-locator', version: webjarsLocator
-  compile group: 'org.webjars', name: 'webjars-locator-core', version: '0.36'
+  compile group: 'org.webjars', name: 'webjars-locator-core', version: webjarsLocatorCore
   compile	group: 'org.webjars', name: 'jquery', version: jqueryVersion
   compile	group: 'org.webjars', name: 'jquery-ui', version: jqueryUiVersion
   compile	group: 'org.webjars', name: 'datatables', version: datatablesVersion
