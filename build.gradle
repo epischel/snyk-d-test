@@ -1,22 +1,66 @@
 buildscript {
-  ext { springBootVersion = '2.1.0.RELEASE' }
+  ext { springBootVersion = '2.3.1.RELEASE' }
+  dependencies {
+    classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    classpath("io.spring.gradle:dependency-management-plugin:1.0.9.RELEASE")
+    classpath("org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.0.1622")
+    classpath("org.jsonschema2pojo:jsonschema2pojo-gradle-plugin:1.0.0")
+  }
 }
 
-ext.camelVersion = '2.23.0'
-ext.springBootVersion = '2.1.0.RELEASE'
-ext.springSecurityVersion = '5.1.2.RELEASE'
-ext.springTest = '5.1.2.RELEASE'
+apply plugin: "java"
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+apply plugin: "war"
+
+apply plugin: "application"
+
+// IDE Plugins
+apply plugin: "eclipse"
+apply plugin: "maven"
+
+// Analyse Plugins
+apply plugin: "jacoco"
+apply plugin: "org.sonarqube"
+
+// Generation Plugins
+apply plugin: "jsonschema2pojo
+
+configurations {
+    docgen
+}
+
+//
+// fixed encoding - for now...
+compileJava.options.encoding = 'ISO-8859-1'
+compileTestJava.options.encoding = 'ISO-8859-1'
+
+
+configurations {
+  providedRuntime
+  xjc
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+ext.camelVersion = '3.4.1'
+ext.springBootVersion = '2.3.1.RELEASE'
+ext.springSecurityVersion = '5.1.6.RELEASE'
+ext.springTest = '5.2.5.RELEASE'
 ext.cxfVersion = '3.2.5'
-ext.tomcatVersion = '9.0.2'
+ext.tomcatVersion = '9.0.33'
 ext.tomcatJuliVersion = '8.5.2'
 ext.jaxbXjcVersion = '2.2.11'
 ext.jaxb2Version = '0.10.0'
 ext.commonsCsvVersion = '1.4'
-ext.slf4j = '1.7.7'
+ext.slf4j = '1.7.30'
 ext.logback = '1.2.3'
 ext.jUnitVersion = '4.12'
 ext.jsonWebTokenVersion = '0.9.1'
 ext.jsonschema2pojoVersion = '1.0.0'
+ext.restAssuredVersion = '4.1.1'
 
 // meta info version
 ext.srvDscVersion = '1.0.3'
@@ -37,7 +81,29 @@ ext.chartJsVersion = '2.5.0'
 ext.angularChartJsVersion = '1.1.1'
 ext.hibernateValidator = '5.4.1.Final'
 
+def getGitRevision() {
+   def revision =(System.getenv("GIT_COMMIT") as String ?: "GIT-IDE__").substring(0,8)
+  println "drl.build=" + revision
+  return revision
+}
+
+def getDrlVersion() {
+  Properties properties = new Properties();
+  new File( projectDir, "src/main/resources/application.properties" ).withInputStream {	 stream ->
+    properties.load(stream);
+  }
+
+  println "drl.version=" + properties["drl.version"];
+  return properties["drl.version"];
+}
+
+version = getDrlVersion()
+def version_buildNumber = '' + getGitRevision()
+
+
+// Abhngigkeiten & Bibliotheken
 dependencies {
+
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: springBootVersion
   compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version: springBootVersion
   compile group: 'org.springframework.boot', name: 'spring-boot-actuator', version: springBootVersion
@@ -49,19 +115,18 @@ dependencies {
 
   compile group: 'org.hibernate', name: 'hibernate-validator', version: hibernateValidator
 
-  compile group: 'org.apache.camel', name: 'camel-spring-boot', version: camelVersion
-  compile group: 'org.apache.camel', name: 'camel-spring-boot-starter', version: camelVersion
+  compile group: 'org.apache.camel.springboot', name: 'camel-spring-boot-starter', version: camelVersion
   compile group: 'org.apache.camel', name: 'camel-servlet', version: camelVersion
   compile group: 'org.apache.camel', name: 'camel-spring-ws', version: camelVersion
   compile group: 'org.apache.camel', name: 'camel-jaxb', version: camelVersion
   compile group: 'org.apache.camel', name: 'camel-spring-javaconfig', version: camelVersion
   compile group: 'org.apache.camel', name: 'camel-http', version: camelVersion
-  compile group: 'org.apache.camel', name: 'camel-http4', version: camelVersion
   compile group: 'org.apache.camel', name: 'camel-jackson', version: camelVersion
   compile group: 'org.apache.camel', name: 'camel-jsonpath', version: camelVersion
+  compile group: 'org.apache.camel', name: 'camel-management', version: camelVersion
 
   compile group: 'org.hsqldb', name: 'hsqldb', version: '2.4.0'
-
+  
   compile group: 'com.oracle', name: 'ojdbc7', version: '12.1.0.1'
 
   compile group: 'org.apache.cxf', name: 'cxf-rt-frontend-jaxws', version: cxfVersion
@@ -78,22 +143,25 @@ dependencies {
   compile group: 'org.apache.commons', name: 'commons-csv', version: commonsCsvVersion
   compile group: 'org.apache.wss4j', name: 'wss4j-bindings', version: '2.1.4'
 
-  xjc 	group: 'javax.xml.bind', name: 'jaxb-api', version: jaxbXjcVersion
-  xjc		group: 'com.sun.xml.bind', name: 'jaxb-xjc', version: jaxbXjcVersion
-  xjc 	group: 'com.sun.xml.bind', name: 'jaxb-core', version: jaxbXjcVersion
-  xjc 	group: 'com.sun.xml.bind', name: 'jaxb-impl', version: jaxbXjcVersion
-  xjc		group: 'org.jvnet.jaxb2_commons', name: 'jaxb2-basics', version: jaxb2Version
-  xjc		group: 'org.jvnet.jaxb2_commons', name: 'jaxb2-basics-ant', version: jaxb2Version
+  xjc group: 'javax.xml.bind', name: 'jaxb-api', version: jaxbXjcVersion
+  xjc group: 'com.sun.xml.bind', name: 'jaxb-xjc', version: jaxbXjcVersion
+  xjc group: 'com.sun.xml.bind', name: 'jaxb-core', version: jaxbXjcVersion
+  xjc group: 'com.sun.xml.bind', name: 'jaxb-impl', version: jaxbXjcVersion
+  xjc group: 'org.jvnet.jaxb2_commons', name: 'jaxb2-basics', version: jaxb2Version
+  xjc	group: 'org.jvnet.jaxb2_commons', name: 'jaxb2-basics-ant', version: jaxb2Version
+  xjc group: 'org.jvnet.jaxb2_commons', name: 'jaxb2-namespace-prefix', version: 1.1
 
   compile	group: 'org.jvnet.jaxb2_commons', name: 'jaxb2-basics-runtime', version: jaxb2Version
 
   compile group: 'org.jsonschema2pojo', name: 'jsonschema2pojo-core', version: jsonschema2pojoVersion
   compile group: 'org.jsonschema2pojo', name: 'jsonschema2pojo-gradle-plugin', version: jsonschema2pojoVersion
-  compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.7'
-  compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.9.7'
+  compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.1'
+  compile group: 'com.fasterxml.jackson.dataformat', name: 'jackson-dataformat-yaml', version: '2.11.1'
   compile group: 'com.jayway.jsonpath', name: 'json-path', version: '2.4.0'
   compile group: 'com.google.code.gson', name: 'gson', version: '2.8.4'
   compile group: 'com.github.ben-manes.caffeine', name: 'caffeine', version: '2.4.0'
+  
+  compile group: 'io.github.classgraph', name: 'classgraph', version: '4.8.65'
 
   compile group: 'ch.qos.logback', name: 'logback-core', version: logback
   compile group: 'ch.qos.logback', name: 'logback-classic', version: logback
@@ -106,7 +174,8 @@ dependencies {
   testCompile group: 'org.springframework.security', name: 'spring-security-test', version: springSecurityVersion
   testCompile group: 'org.springframework.boot', name: 'spring-boot-test', version: springBootVersion
   testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: springBootVersion
-  testCompile group: 'io.rest-assured', name: 'rest-assured', version: '3.0.2'
+  testCompile group: 'io.rest-assured', name: 'rest-assured', version: restAssuredVersion
+
 
   // frontend
   compile	group: 'org.webjars', name: 'webjars-locator', version: webjarsLocator
@@ -125,12 +194,163 @@ dependencies {
   compile	group: 'org.webjars.bower', name: 'angular-chart.js', version: angularChartJsVersion
   compile group: 'org.webjars.bower', name: 'fontawesome', version: '4.7.0'
 
-  // documentation
-  docgen 'org.asciidoctor:asciidoctorj:1.5.5'
-  docgen 'org.asciidoctor:asciidoctor-ant:1.5.4'
-  docgen 'org.asciidoctor:asciidoctorj-diagram:1.5.4.1'
-  docgen 'org.jruby:jruby-complete:1.7.26'
+  // ASCIIDOC plugin fuer gradle
+  docgen 'org.asciidoctor:asciidoctorj:1.5.4.1'
+  docgen 'org.asciidoctor:asciidoctor-ant:1.5.3'
+  docgen 'org.asciidoctor:asciidoctorj-diagram:1.5.0'
   docgen 'net.sourceforge.plantuml:plantuml:8048'
 
   providedRuntime("org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}")
+}
+
+jar {
+  enabled = true
+}
+
+configurations {
+  all*.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+}
+
+def generatedSourceDir = file( "src/main/generated-sources" )
+def generatedConfigDir = file( "src/dist/config" )
+def generatedScriptsDir = file( "src/dist/scripts" )
+def generatedMainDir = file( "src/dist" )
+def generatedDocDir = file( "src/dist/doc" )
+def generatedHtmlDir = file( "src/main/resources/static" )
+
+sourceSets {
+	generated
+  
+	// Quellen
+	main {
+		java {
+			srcDir generatedSourceDir
+			srcDir "src/main/java"
+		}
+		resources {
+			srcDir "src/main/resources"
+			exclude "**/*.properties"
+			exclude "**/logback.xml"
+		}
+	}
+
+	// Modultests
+	test {
+		java { 
+			srcDir "src/test/java" 
+		}
+    	resources { 
+    		srcDir "src/test/resources" 
+    	}
+	}
+  
+	// Integrationstests
+	integration {
+		java { 
+			srcDir "src/integration-test/java"
+			compileClasspath += main.output
+            compileClasspath += main.compileClasspath
+            compileClasspath += test.output
+            compileClasspath += test.compileClasspath
+            compileClasspath += test.runtimeClasspath
+		}
+		resources { 
+			srcDir "src/integration-test/resources" 
+		}
+  }
+}
+
+mainClassName="de.d.Application"
+
+import org.gradle.plugins.ide.eclipse.model.SourceFolder
+
+eclipse.classpath.file {
+  beforeMerged { classpath ->
+    classpath.entries.clear()
+  }
+  whenMerged { cp ->
+    cp.entries.findAll { it instanceof SourceFolder && it.path.startsWith("src/main") }*.output = "build/eclipse/classes"
+    cp.entries.findAll { it instanceof SourceFolder && it.path.startsWith("src/test") }*.output = "build/eclipse/test-classes"
+    cp.entries.findAll { it instanceof SourceFolder && it.path.startsWith("src/integration-test") }*.output = "build/eclipse/integration-test-classes"
+    cp.entries.removeAll { it.kind == "output" }
+  }
+}
+
+war {
+  baseName = "d-test"
+  version = project.version
+}
+
+/*
+ * Code Coverage mit jacoco konfigurieren
+ */
+def codeCoverageExcludes = ['**/*generated/*.class', '**/*Test*.*', '**/*IT.*']
+jacoco { toolVersion = '0.8.5' }
+jacocoTestReport {
+  sourceSets sourceSets.main
+  reports {
+    xml { enabled true }
+    html { enabled true }
+  }
+  afterEvaluate {
+  		getClassDirectories().from(
+			files(classDirectories.files.collect {
+					fileTree(dir: it, exclude: (codeCoverageExcludes))
+			})
+		)
+  }
+}
+
+test {
+	testLogging.showStandardStreams = false
+	testLogging.showExceptions = true
+	testLogging.showStackTraces = false
+	exclude "**/it/*.class"
+	filter {
+    	includeTestsMatching "*Test"
+	}
+
+	jacoco {
+		excludes = codeCoverageExcludes
+	}
+}
+
+task integrationTest(type: Test) {
+	testLogging.showStandardStreams = false
+	testLogging.showExceptions = true
+	testLogging.showStackTraces = false
+	exclude "**/*Test.class"
+	filter {
+    	includeTestsMatching "*.it.*IT"
+	}
+	
+	testClassesDirs = sourceSets.integration.output.classesDirs
+	classpath += sourceSets.integration.runtimeClasspath
+	outputs.upToDateWhen { false }
+	ignoreFailures = true
+	jacoco {
+	    destinationFile = file("${rootProject.buildDir}/jacoco/test.exec")
+	}
+    mustRunAfter test
+}
+
+check.dependsOn integrationTest
+compileIntegrationJava.options.encoding = compileTestJava.options.encoding
+
+task writeNewPom() {
+  pom {
+    project {
+      inceptionYear '2008'
+      licenses {
+        license {
+          name 'The Apache Software License, Version 2.0'
+          url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+          distribution 'repo'
+        }
+      }
+    }
+  }.writeTo("$buildDir/pom.xml")
+}
+
+
 }
