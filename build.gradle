@@ -188,7 +188,7 @@ dependencies {
   compile	group: 'org.webjars', name: 'angularjs', version: angularJsVersion
   compile	group: 'org.webjars', name: 'angular-ui-bootstrap', version: angularUiBootstrapVersion
   compile	group: 'org.webjars', name: 'angular-bootstrap-datetimepicker', version: datetimepickerVersion
-  compile	group: 'org.webjars', name: 'highlightjs', version: '9.2.0'
+  compile	group: 'org.webjars', name: 'highlightjs', version: '10.1.2'
   compile	group: 'org.webjars.bower', name: 'angular', version: angularVersion
   compile	group: 'org.webjars.bower', name: 'angular-utils-pagination', version: angularUtilsPaginationVersion
   compile	group: 'org.webjars.bower', name: 'chart.js', version: chartJsVersion
