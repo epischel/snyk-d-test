@@ -139,7 +139,7 @@ dependencies {
   compile group: 'org.apache.tomcat.embed', name: 'tomcat-embed-websocket', version: tomcatVersion
 
   compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
-  compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+  compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.4'
   compile group: 'org.apache.commons', name: 'commons-csv', version: commonsCsvVersion
   compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
   compile group: 'org.apache.wss4j', name: 'wss4j-bindings', version: '2.1.4'
