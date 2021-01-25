@@ -198,7 +198,7 @@ dependencies {
   // ASCIIDOC plugin fuer gradle
   docgen 'org.asciidoctor:asciidoctorj:1.5.4.1'
   docgen 'org.asciidoctor:asciidoctor-ant:1.5.3'
-  docgen 'org.asciidoctor:asciidoctorj-diagram:1.5.0'
+  docgen 'org.asciidoctor:asciidoctorj-diagram:2.1.0'
   docgen 'net.sourceforge.plantuml:plantuml:8048'
 
   providedRuntime("org.springframework.boot:spring-boot-starter-tomcat:${springBootVersion}")
