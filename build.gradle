@@ -196,7 +196,7 @@ dependencies {
   compile group: 'org.webjars.bower', name: 'fontawesome', version: '4.7.0'
 
   // ASCIIDOC plugin fuer gradle
-  docgen 'org.asciidoctor:asciidoctorj:1.5.4.1'
+  docgen 'org.asciidoctor:asciidoctorj:2.5.1'
   docgen 'org.asciidoctor:asciidoctor-ant:1.5.3'
   docgen 'org.asciidoctor:asciidoctorj-diagram:1.5.0'
   docgen 'net.sourceforge.plantuml:plantuml:8048'
