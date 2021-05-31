@@ -142,7 +142,7 @@ dependencies {
   compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
   compile group: 'org.apache.commons', name: 'commons-csv', version: commonsCsvVersion
   compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
-  compile group: 'org.apache.wss4j', name: 'wss4j-bindings', version: '2.1.4'
+  compile group: 'org.apache.wss4j', name: 'wss4j-bindings', version: '2.3.2'
 
   xjc group: 'javax.xml.bind', name: 'jaxb-api', version: jaxbXjcVersion
   xjc group: 'com.sun.xml.bind', name: 'jaxb-xjc', version: jaxbXjcVersion
